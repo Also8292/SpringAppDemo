@@ -4,10 +4,8 @@ import com.also.springApp.model.Student;
 import com.also.springApp.model.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author also
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping(path="/student")
+//@RequestMapping(path="/student")
 public class HomeController {
 
 	/*@GetMapping("/")
@@ -28,23 +26,19 @@ public class HomeController {
 		return "about";
 	}*/
 
-	@Autowired
+	//@Autowired
 
-	private StudentRepository studentRepository;
+	//private StudentRepository studentRepository;
 
-	@GetMapping(path="/add")
-	public @ResponseBody String addNewStudent (@RequestParam String name, @RequestParam String email) {
-		Student a = new Student();
-		a.setName(name);
-		a.setEmail(email);
-		studentRepository.save(a);
-
-		return "Saved";
+	@GetMapping(path="/")
+	public String home () {
+		return "home";
 	}
 
-	@GetMapping(path="/all")
-	public @ResponseBody Iterable<Student> getAllStudents() {
-		return studentRepository.findAll();
-	}
+
+	//@GetMapping(path="/all")
+	//public @ResponseBody Iterable<Student> getAllStudents() {
+		//return studentRepository.findAll();
+	//}
 
 }

@@ -1,4 +1,7 @@
 package com.also.springApp.model;
 
-public class PersonRepository {
+import org.springframework.data.repository.CrudRepository;
+
+public interface PersonRepository extends CrudRepository<Person, Integer> {
+
 }
