@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.lang.reflect.Array;
+import java.util.List;
 
 @Controller
 //@RequestMapping(path="/persons")
@@ -52,5 +52,15 @@ public class PersonController {
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Person> getAllPersons() {
         return personRepository.findAll();
+    }
+
+    @GetMapping("/persons")
+    public String findCities(Model model) {
+
+        List<Person> person = (List<Person>) personRepository.findAll();
+
+        model.addAttribute("person", person);
+
+        return "test";
     }
 }
