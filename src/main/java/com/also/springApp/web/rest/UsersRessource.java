@@ -5,6 +5,7 @@ import com.also.springApp.repository.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -22,8 +23,12 @@ public class UsersRessource {
 
     private final UsersRepository usersRepository;
 
-    public UsersRessource(UsersRepository usersRepository) {
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UsersRessource(UsersRepository usersRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+
         this.usersRepository = usersRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     /**
@@ -36,6 +41,7 @@ public class UsersRessource {
             //throw new HttpClientErrorException.BadRequest();
             System.out.println("Bad request for create");
         }
+        users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
         Users result = usersRepository.save(users);
         return ResponseEntity.created(new URI("/api/users/" + result.getId().toString())).body(result);
     }
@@ -70,5 +76,11 @@ public class UsersRessource {
     public Optional<Users> getUsersById(@PathVariable Long id) {
         log.debug(("REST request to get one user by id"));
         return usersRepository.findById(id);
+    }
+
+    @GetMapping("/users/{email}")
+    public Optional<Users> getUsersByEmail(@PathVariable String email) {
+        log.debug(("REST request to get one user by email"));
+        return usersRepository.findUsersByEmail(email);
     }
 }
